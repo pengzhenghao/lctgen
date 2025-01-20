@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
   # make 10 foloders under PATH
   for i in range(10):
-      os.makedirs('{}/{}'.format(PATH_A, i))
+      os.makedirs('{}/{}'.format(PATH_A, i), exist_ok=True)
 
   # for each folder, move 1/10 of the data to it (data name: training_20s.tfrecord-xxxxx-of-01000)
   for i in tqdm.tqdm(range(10)):
