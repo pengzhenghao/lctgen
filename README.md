@@ -1,3 +1,9 @@
+# PZH Modified
+
+This forked repo is the modified version of the original LCTGen repo: 
+https://github.com/Ariostgx/lctgen
+
+
 # Language Conditioned Traffic Generation
 
 [**Language Conditioned Traffic Generation**](https://arxiv.org/abs/2307.07947)                                     
@@ -36,11 +42,10 @@ cd lctgen
 conda create -n lctgen python=3.8
 conda activate lctgen
 
-# You should install pytorch by yourself to make them compatible with your GPU
-pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 -f https://download.pytorch.org/whl/torch_stable.html
-
 # Install other dependency
 pip install -r requirements.txt
+
+pip install torch
 ```
 
 ## Quick start
