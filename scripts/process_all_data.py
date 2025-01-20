@@ -18,6 +18,9 @@ if __name__ == '__main__':
 
   # for each folder, move 1/10 of the data to it (data name: training_20s.tfrecord-xxxxx-of-01000)
   for i in tqdm.tqdm(range(10)):
+    if os.path.exists('{}/{}/'.format(PATH_A, i)):
+      print('Folder {} already exists, skipping'.format(i))
+      continue
     for j in tqdm.tqdm(range(100)):
       shutil.move('{}/training_20s.tfrecord-{:05d}-of-01000'.format(PATH_A, j+100*i), '{}/{}/'.format(PATH_A, i))
 
