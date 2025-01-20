@@ -417,8 +417,12 @@ def parse_data(inut_path, output_path, pre_fix=None):
                 else:
                     p = os.path.join(output_path, '{}_{}.pkl'.format(pre_fix, cnt))
 
+                mapping_p = os.path.join(output_path, '{}_mapping.json'.format(pre_fix))
+
                 scenario.ParseFromString(data)
                 scene = dict()
+                sid = scenario.scenario_id
+
                 scene['id'] = scenario.scenario_id
                 sdc_index = scenario.sdc_track_index
                 scene['all_agent'] = extract_tracks(scenario.tracks, sdc_index)
@@ -450,6 +454,16 @@ def parse_data(inut_path, output_path, pre_fix=None):
             # test
             with open(p, 'wb') as f:
                 pickle.dump(scene, f)
+
+            import json
+            if not os.path.exists(mapping_p):
+                mapping_dict = {}
+            else:
+                with open(mapping_p, 'r') as f:
+                    mapping_dict = json.load(f)
+            mapping_dict[p] = sid
+            with open(mapping_p, 'w') as f:
+                json.dump(mapping_dict, f)
 
             cnt += 1
             if cnt > MAX:
