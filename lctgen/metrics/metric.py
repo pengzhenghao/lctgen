@@ -71,6 +71,11 @@ class MMD(MeanMetric):
 
       super().update(mmd_score)
 
+
+def angle_to_vector(angles):
+    return torch.cat([torch.cos(angles), torch.sin(angles)], dim=-1)
+
+
 @registry.register_metric(name='MMD')
 class MMD_All(Metric):
     def __init__(self, config):
@@ -106,6 +111,7 @@ class MMD_All(Metric):
         for data_type in ['source', 'target']:
           feats[data_type] = {
           'heading': torch.tensor(normalize_angle(np.concatenate([x.heading for x in agents[data_type]], axis=0))),
+          'heading_transformed': angle_to_vector(torch.tensor(normalize_angle(np.concatenate([x.heading for x in agents[data_type]], axis=0)))),
           'size': torch.tensor(np.concatenate([x.length_width for x in agents[data_type]], axis=0)),
           'speed': torch.tensor(np.concatenate([x.velocity for x in agents[data_type]], axis=0)),
           'position': torch.tensor(np.concatenate([x.position for x in agents[data_type]], axis=0)),

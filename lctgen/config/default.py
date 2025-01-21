@@ -201,7 +201,7 @@ _C.METRIC.TOPK = 1
 _C.METRIC.MMD = CN()
 _C.METRIC.MMD.KERNEL_MUL = 1.0
 _C.METRIC.MMD.KERNEL_NUM = 1
-_C.METRIC.MMD.ATTR = ['position', 'speed', 'size', 'heading']
+_C.METRIC.MMD.ATTR = ['position', 'speed', 'size', 'heading', 'heading_transformed']
 
 # -----------------------------------------------------------------------------
 # LLM CONFIG
