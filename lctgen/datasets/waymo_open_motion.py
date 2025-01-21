@@ -392,7 +392,8 @@ class WaymoOpenMotionDataset(Dataset):
             case_list[0]['lane'] = other['lane']
             case_list[0]['traf'] = data['traffic_light']
             case_list[0]['other'] = other
-        
+
+        # PZH: Obviously, you only pick T=0 from the data.
         return case_list[0]
 
     def _process_map_inp(self, case_info):

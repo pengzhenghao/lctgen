@@ -493,9 +493,14 @@ if __name__ == '__main__':
 
     Some data may be broken
     """
-    raw_data_path = sys.argv[1]
-    processed_data_path = sys.argv[2]
-    pre_fix = sys.argv[3]
+    # raw_data_path = sys.argv[1]
+    # processed_data_path = sys.argv[2]
+    # pre_fix = sys.argv[3]
+
+    raw_data_path = "test_data"
+    processed_data_path = "."
+    pre_fix = "0"
+
     # raw_data_path = ".\\data"
     # processed_data_path = ".\\debug_data"
     # pre_fix = str(uuid.uuid4())
