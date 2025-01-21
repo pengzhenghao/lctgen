@@ -19,7 +19,8 @@ _C.DATASET.TEXT = CN()
 
 _C.ROOT_DIR = '..'
 _C.DATASET.DATA_LIST.ROOT = 'data/list'
-_C.DATASET.DATA_PATH = 'data/demo/waymo' # change to your own data path here
+# _C.DATASET.DATA_PATH = 'data/demo/waymo' # change to your own data path here
+_C.DATASET.DATA_PATH = '/bigdata/datasets/trafficgen' # change to your own data path here
 _C.SAVE_DIR = 'results'
 
 _C.LOGGER = 'wandb'
