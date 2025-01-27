@@ -449,7 +449,6 @@ def parse_data(inut_path, output_path, pre_fix=None):
                 # scene['lane'], scene['lane_mask'] = transform_coordinate_map(lane, ego)
                 # scene['traf_p_c_f'] = add_traff_to_lane(scene)
 
-
                 # test
                 with open(p, 'wb') as f:
                     pickle.dump(scene, f)
@@ -460,14 +459,17 @@ def parse_data(inut_path, output_path, pre_fix=None):
                 else:
                     with open(mapping_p, 'r') as f:
                         mapping_dict = json.load(f)
+
+                if p in mapping_dict:
+                    print(f"File {p} is in mapping dict {mapping_dict}?????")
+
                 assert p not in mapping_dict
                 mapping_dict[p] = sid
                 with open(mapping_p, 'w') as f:
                     json.dump(mapping_dict, f)
 
-
-            except:
-                print(f'fail to parse {cnt},continue')
+            except Exception as e:
+                print(f'fail to parse {cnt},continue. Error: {e}')
                 continue
 
 
