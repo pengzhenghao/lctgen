@@ -411,61 +411,65 @@ def parse_data(inut_path, output_path, pre_fix=None):
             continue
         dataset = tf.data.TFRecordDataset(file_path, compression_type='')
         for j, data in enumerate(dataset.as_numpy_iterator()):
-            # try:
-            if pre_fix == 'None':
-                p = os.path.join(output_path, '{}.pkl'.format(cnt))
-            else:
-                p = os.path.join(output_path, '{}_{}.pkl'.format(pre_fix, cnt))
+            try:
+                if pre_fix == 'None':
+                    p = os.path.join(output_path, '{}.pkl'.format(cnt))
+                else:
+                    p = os.path.join(output_path, '{}_{}.pkl'.format(pre_fix, cnt))
 
-            mapping_p = os.path.join(output_path, '{}_mapping.json'.format(pre_fix))
+                mapping_p = os.path.join(output_path, '{}_mapping.json'.format(pre_fix))
 
-            scenario.ParseFromString(data)
-            scene = dict()
-            import copy
-            sid = copy.deepcopy(scenario.scenario_id)
+                scenario.ParseFromString(data)
+                scene = dict()
+                import copy
+                sid = copy.deepcopy(scenario.scenario_id)
 
-            scene['id'] = scenario.scenario_id
-            sdc_index = scenario.sdc_track_index
-            scene['all_agent'] = extract_tracks(scenario.tracks, sdc_index)
+                scene['id'] = scenario.scenario_id
+                sdc_index = scenario.sdc_track_index
+                scene['all_agent'] = extract_tracks(scenario.tracks, sdc_index)
 
-            # ego = scenario.tracks[sdc_index]
-            scene['traffic_light'] = extract_dynamic(scenario.dynamic_map_states)
-            global SAMPLE_NUM
-            SAMPLE_NUM = 10
-            scene['lane'], scene['center_info'] = extract_map(scenario.map_features)
+                # ego = scenario.tracks[sdc_index]
+                scene['traffic_light'] = extract_dynamic(scenario.dynamic_map_states)
+                global SAMPLE_NUM
+                SAMPLE_NUM = 10
+                scene['lane'], scene['center_info'] = extract_map(scenario.map_features)
 
-            SAMPLE_NUM = 10e9
-            scene['unsampled_lane'], _ = extract_map(scenario.map_features)
+                SAMPLE_NUM = 10e9
+                scene['unsampled_lane'], _ = extract_map(scenario.map_features)
 
-            # time_sample = min(int(len(ego.states) / BATCH_SIZE), TIME_SAMPLE)
-            # sdc_x = np.array([state.center_x for state in ego.states])[::time_sample, ...][:BATCH_SIZE]
-            # sdc_y = np.array([state.center_y for state in ego.states])[::time_sample, ...][:BATCH_SIZE]
-            # sdc_yaw = np.array([state.heading for state in ego.states])[::time_sample, ...][:BATCH_SIZE]
-            # sdc_theta = yaw_to_y(sdc_yaw).astype(np.float32)
-            # pos = np.stack([sdc_x, sdc_y], axis=-1)
-            # scene['sdc_theta'] = sdc_theta
-            # scene['sdc_pos'] = pos
-            compute_width(scene)
-            # scene['lane'], scene['lane_mask'] = transform_coordinate_map(lane, ego)
-            # scene['traf_p_c_f'] = add_traff_to_lane(scene)
+                # time_sample = min(int(len(ego.states) / BATCH_SIZE), TIME_SAMPLE)
+                # sdc_x = np.array([state.center_x for state in ego.states])[::time_sample, ...][:BATCH_SIZE]
+                # sdc_y = np.array([state.center_y for state in ego.states])[::time_sample, ...][:BATCH_SIZE]
+                # sdc_yaw = np.array([state.heading for state in ego.states])[::time_sample, ...][:BATCH_SIZE]
+                # sdc_theta = yaw_to_y(sdc_yaw).astype(np.float32)
+                # pos = np.stack([sdc_x, sdc_y], axis=-1)
+                # scene['sdc_theta'] = sdc_theta
+                # scene['sdc_pos'] = pos
+                compute_width(scene)
+                # scene['lane'], scene['lane_mask'] = transform_coordinate_map(lane, ego)
+                # scene['traf_p_c_f'] = add_traff_to_lane(scene)
 
-            # except:
-            #     print(f'fail to parse {cnt},continue')
-            #     continue
-            # test
-            with open(p, 'wb') as f:
-                pickle.dump(scene, f)
 
-            import json
-            if not os.path.exists(mapping_p):
-                mapping_dict = {}
-            else:
-                with open(mapping_p, 'r') as f:
-                    mapping_dict = json.load(f)
-            assert p not in mapping_dict
-            mapping_dict[p] = sid
-            with open(mapping_p, 'w') as f:
-                json.dump(mapping_dict, f)
+                # test
+                with open(p, 'wb') as f:
+                    pickle.dump(scene, f)
+
+                import json
+                if not os.path.exists(mapping_p):
+                    mapping_dict = {}
+                else:
+                    with open(mapping_p, 'r') as f:
+                        mapping_dict = json.load(f)
+                assert p not in mapping_dict
+                mapping_dict[p] = sid
+                with open(mapping_p, 'w') as f:
+                    json.dump(mapping_dict, f)
+
+
+            except:
+                print(f'fail to parse {cnt},continue')
+                continue
+
 
             cnt += 1
             if cnt > MAX:
