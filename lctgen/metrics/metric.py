@@ -104,6 +104,8 @@ class MMD_All(Metric):
         agents['source'] = [WaymoAgent(agent.unsqueeze(0).cpu().numpy()) for agent in gt_agent_feats]
         agents['target'] = model_output_scene[i]['agent']
 
+        print("input {}, num GT: {}".format(input['data']['file'], len(agents['source'])))
+
         if len(agents['source']) == 0 or len(agents['target']) == 0:
           continue
         

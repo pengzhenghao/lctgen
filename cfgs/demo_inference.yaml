@@ -11,8 +11,8 @@ DATASET:
     RANDOM_MASK_RATE: 0.1
   TRAJ_TYPE: xy_theta_relative
   DATA_LIST:
-    TEST: demo.txt
-    VAL: demo.txt
+    TEST: demo_debug.txt
+    VAL: demo_debug.txt
     TRAIN: demo.txt
   TEXT:
     TYPE: attr_ind
@@ -114,7 +114,7 @@ MODEL:
     PRETRAINED: false
 
 TEST:
-  BATCH_SIZE: 16
+  BATCH_SIZE: 1
   SHUFFLE: false
   NUM_WORKERS: 4
 TRAIN:
@@ -127,7 +127,7 @@ TRAIN:
     - 90
   NUM_WORKERS: 4
 VAL:
-  BATCH_SIZE: 16
+  BATCH_SIZE: 1
   NUM_WORKERS: 4
 VAL_INTERVAL: 10
 VIS_INTERVAL: 20
